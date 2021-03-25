@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SocialNetworkSample.Data\SocialNetworkSample.Data.csproj" />
+    <ProjectReference Include="..\SocialNetworkSample.Services.Contracts\SocialNetworkSample.Services.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,22 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+*.suo
+/SocialNetworkSample/bin/Debug/netcoreapp3.1
+/SocialNetworkSample/obj
+/SocialNetworkSample/SocialNetworkSample.db
+/SocialNetworkSample.Api/bin/Debug/netcoreapp3.1
+/SocialNetworkSample.Api/obj
+/SocialNetworkSample.App/bin/Debug/netcoreapp3.1
+/SocialNetworkSample.App/obj
+/SocialNetworkSample.Data/bin/Debug/netcoreapp3.1
+/SocialNetworkSample.Data/obj
+/SocialNetworkSample.Services/bin/Debug/netcoreapp3.1
+/SocialNetworkSample.Services/obj
+/SocialNetworkSample.Services.Contracts/bin/Debug/netstandard2.0
+/SocialNetworkSample.Services.Contracts/obj
+/SocialNetworkSample.Services.Models/bin/Debug/netstandard2.0
+/SocialNetworkSample.Services.Models/obj
+/SocialNetworkSample.sln.DotSettings.user
+/.vs/SocialNetworkSample
