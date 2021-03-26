@@ -1,10 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SocialNetworkSample.Data.Entities;
+using System;
 
 namespace SocialNetworkSample.Data
 {
     public class DataContext : DbContext
     {
+        private readonly string _connectionString;
+
+        public DataContext(string connectionString)
+        {
+            _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
+        }
+
         public DbSet<ClientEntity> Clients { get; set; }
 
         public DbSet<SubscriptionEntity> Subscriptions { get; set; }
@@ -12,7 +20,7 @@ namespace SocialNetworkSample.Data
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options
-            .UseSqlite("Data Source=SocialNetworkSample.db");
+            .UseSqlite(_connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -20,3 +20,5 @@
 /SocialNetworkSample.Services.Models/obj
 /SocialNetworkSample.sln.DotSettings.user
 /.vs/SocialNetworkSample
+/SocialNetworkSample.IntegrationTests/bin/Debug/netcoreapp3.1
+/SocialNetworkSample.IntegrationTests/obj

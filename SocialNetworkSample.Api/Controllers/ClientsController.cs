@@ -18,6 +18,7 @@ namespace SocialNetworkSample.Api.Controllers
     [Route("[controller]")]
     public class ClientsController : ControllerBase
     {
+        private const int TopMax = 10000;
         private readonly ILogger<ClientsController> _logger;
         private readonly IMediator _mediator;
 
@@ -81,7 +82,10 @@ namespace SocialNetworkSample.Api.Controllers
                 throw new ArgumentNullException(nameof(request));
 
             if (request.PublisherClientId == request.SubscriberClientId)
-                throw new ArgumentException("SubscriberClientId == PublisherClientId!");
+                ModelState.AddModelError(string.Empty, "SubscriberClientId == PublisherClientId!");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             bool subscribed;
 
@@ -111,9 +115,14 @@ namespace SocialNetworkSample.Api.Controllers
         {
             _logger.LogInformation($"Top {top} of most popular clients requested.");
 
-            if (top <= 0)
+            // ограничение на значение на топ (в том числе, хоть какое-то на максимальное значение)
+            if (top <= 0 || top > TopMax)
+                ModelState.AddModelError(string.Empty, $"Error: top value out of range (1 - {TopMax})");
+
+
+            if (top > TopMax)
                 ModelState.AddModelError(string.Empty, "top value out of range");
-            
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 

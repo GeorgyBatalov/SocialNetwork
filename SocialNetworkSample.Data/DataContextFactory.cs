@@ -11,18 +11,21 @@ namespace SocialNetworkSample.Data
     /// <remarks>Можно конечно самому здесь сделать синглтон, но лучше укажем это при регистрации сервиса</remarks>
     public class DataContextFactory : IDataContextFactory
     {
+        private const string MigrationErrorMessage = "Error while trying to migrate database.";
+        private readonly string _connectionString;
         private readonly ILogger<DataContextFactory> _logger;
 
-        public DataContextFactory(ILogger<DataContextFactory> logger)
+        public DataContextFactory(ILogger<DataContextFactory> logger, string connectionString)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _connectionString = connectionString;
 
             Migrate();
         }
 
         public DataContext Create()
         {
-            return new DataContext();
+            return new DataContext(_connectionString);
         }
 
         private void Migrate()
@@ -35,9 +38,15 @@ namespace SocialNetworkSample.Data
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Error while trying to migrate database.");
+                _logger.LogError(e, MigrationErrorMessage);
                 throw;
             }
+
+            //if (context.Database?.EnsureCreated() != true)
+            //{
+            //    _logger.LogError(MigrationErrorMessage);
+            //    throw new InvalidOperationException(nameof(Migrate));
+            //}
         }
     }
 }

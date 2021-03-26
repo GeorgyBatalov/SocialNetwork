@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,11 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using SocialNetworkSample.Api.Controllers;
 using SocialNetworkSample.Data;
 using SocialNetworkSample.Data.Abstract;
 using SocialNetworkSample.Services.Commands;
-using SocialNetworkSample.Services.Contracts.Commands;
 
 namespace SocialNetworkSample
 {
@@ -42,17 +39,19 @@ namespace SocialNetworkSample
                 });
             });
 
-            //services.AddScoped<ILogger<ClientsController>, Logger<ClientsController>>();
-            //services.AddScoped<ILogger<DataContextFactory>, Logger<DataContextFactory>>();
-
 
             AppDomain.CurrentDomain.Load(typeof(RegisterClientCommandRequestHandler).Assembly.FullName);
+
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-            var strings = assemblies.Select(x => x.FullName).ToArray();
-
             services.AddMediatR(assemblies);
-            services.AddSingleton<IDataContextFactory, DataContextFactory>();
+            services.AddSingleton<IDataContextFactory>(provider =>
+            {
+                var logger = provider.GetRequiredService<ILogger<DataContextFactory>>();
+                // TODO: по заданию настроек не должно быть, но по хорошему такие настройки нужно выносить в файл конфигурации
+                const string connectionString = "Data Source=SocialNetworkSample.db";
+                return new DataContextFactory(logger, connectionString);
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
